@@ -1,43 +1,145 @@
 import * as React from 'react';
 import styles from './UserModal.module.scss';
-import type { IUserModalProps } from './IUserModalProps';
+import { IUserModalProps } from './IUserModalProps';
 import { escape } from '@microsoft/sp-lodash-subset';
+import { IUserItem } from '../UserModalWebPart';
+import UserTile from './UserTile';
+import UserModalDialog from './UserModalDialog';
+import { Spinner, SpinnerSize } from '@fluentui/react/lib/Spinner';
+import { Icon } from '@fluentui/react/lib/Icon';
 
-export default class UserModal extends React.Component<IUserModalProps> {
+export default class UserModal extends React.Component<IUserModalProps, {
+  currentPage: number;
+  isModalOpen: boolean;
+  selectedUser: IUserItem | null;
+}> {
+  
+  constructor(props: IUserModalProps) {
+    super(props);
+    this.state = {
+      currentPage: 0,
+      isModalOpen: false,
+      selectedUser: null
+    };
+  }
+
   public render(): React.ReactElement<IUserModalProps> {
-    const {
-      description,
-      isDarkTheme,
-      environmentMessage,
+    const { 
+      webPartTitle, 
+      userItems, 
+      isLoading, 
+      itemsPerPage,
       hasTeamsContext,
-      userDisplayName
+      isDarkTheme
     } = this.props;
 
+    const { currentPage, isModalOpen, selectedUser } = this.state;
+    
+    // Calculate total pages
+    const totalPages = Math.ceil(userItems.length / itemsPerPage);
+    
+    // Get items for current page
+    const startIndex = currentPage * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentItems = userItems.slice(startIndex, endIndex);
+    
+    // Generate grid class based on items per page
+    let gridClass = styles.gridOne;
+    if (itemsPerPage === 2) {
+      gridClass = styles.gridTwo;
+    } else if (itemsPerPage === 3) {
+      gridClass = styles.gridThree;
+    } else if (itemsPerPage === 4) {
+      gridClass = styles.gridFour;
+    }
+
+    // Handle navigation
+    const goToPreviousPage = (): void => {
+      if (currentPage > 0) {
+        this.setState({ currentPage: currentPage - 1 });
+      }
+    };
+
+    const goToNextPage = (): void => {
+      if (currentPage < totalPages - 1) {
+        this.setState({ currentPage: currentPage + 1 });
+      }
+    };
+
+    // Handle modal
+    const openModal = (user: IUserItem): void => {
+      this.setState({ 
+        isModalOpen: true,
+        selectedUser: user
+      });
+    };
+
+    const dismissModal = (): void => {
+      this.setState({ isModalOpen: false });
+    };
+
     return (
-      <section className={`${styles.userModal} ${hasTeamsContext ? styles.teams : ''}`}>
-        <div className={styles.welcome}>
-          <img alt="" src={isDarkTheme ? require('../assets/welcome-dark.png') : require('../assets/welcome-light.png')} className={styles.welcomeImage} />
-          <h2>Well done, {escape(userDisplayName)}!</h2>
-          <div>{environmentMessage}</div>
-          <div>Web part property value: <strong>{escape(description)}</strong></div>
+      <div className={`${styles.userModal} ${hasTeamsContext ? styles.teams : ''}`}>
+        <div className={styles.container}>
+          <h2 className={styles.webPartTitle}>{escape(webPartTitle)}</h2>
+          
+          {isLoading ? (
+            <div className={styles.spinner}>
+              <Spinner size={SpinnerSize.large} label="Loading team members..." />
+            </div>
+          ) : userItems.length === 0 ? (
+            <div className={styles.noItems}>
+              <p>No team members found. Please check the list configuration in the web part properties.</p>
+            </div>
+          ) : (
+            <div className={styles.carouselContainer}>
+              <div className={`${styles.tilesGrid} ${gridClass}`}>
+                {currentItems.map((item: IUserItem) => (
+                  <UserTile 
+                    key={item.id} 
+                    item={item}
+                    onOpenModal={openModal}
+                    context={this.props.context}
+                  />
+                ))}
+              </div>
+              
+              {totalPages > 1 && (
+                <div className={styles.navigationControls}>
+                  <button 
+                    className={`${styles.navButton} ${currentPage === 0 ? styles.disabled : ''}`}
+                    onClick={goToPreviousPage}
+                    disabled={currentPage === 0}
+                    aria-label="Previous page"
+                  >
+                    <Icon iconName="ChevronLeftMed" />
+                  </button>
+                  <div className={styles.pageIndicator}>
+                    {`${currentPage + 1} / ${totalPages}`}
+                  </div>
+                  <button 
+                    className={`${styles.navButton} ${currentPage === totalPages - 1 ? styles.disabled : ''}`}
+                    onClick={goToNextPage}
+                    disabled={currentPage === totalPages - 1}
+                    aria-label="Next page"
+                  >
+                    <Icon iconName="ChevronRightMed" />
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {isModalOpen && selectedUser && (
+            <UserModalDialog 
+              isOpen={isModalOpen}
+              onDismiss={dismissModal}
+              userData={selectedUser}
+              isDarkTheme={isDarkTheme}
+            />
+          )}
         </div>
-        <div>
-          <h3>Welcome to SharePoint Framework!</h3>
-          <p>
-            The SharePoint Framework (SPFx) is a extensibility model for Microsoft Viva, Microsoft Teams and SharePoint. It&#39;s the easiest way to extend Microsoft 365 with automatic Single Sign On, automatic hosting and industry standard tooling.
-          </p>
-          <h4>Learn more about SPFx development:</h4>
-          <ul className={styles.links}>
-            <li><a href="https://aka.ms/spfx" target="_blank" rel="noreferrer">SharePoint Framework Overview</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-graph" target="_blank" rel="noreferrer">Use Microsoft Graph in your solution</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-teams" target="_blank" rel="noreferrer">Build for Microsoft Teams using SharePoint Framework</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-viva" target="_blank" rel="noreferrer">Build for Microsoft Viva Connections using SharePoint Framework</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-store" target="_blank" rel="noreferrer">Publish SharePoint Framework applications to the marketplace</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-api" target="_blank" rel="noreferrer">SharePoint Framework API reference</a></li>
-            <li><a href="https://aka.ms/m365pnp" target="_blank" rel="noreferrer">Microsoft 365 Developer Community</a></li>
-          </ul>
-        </div>
-      </section>
+      </div>
     );
   }
 }
