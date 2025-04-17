@@ -25,7 +25,6 @@ export default class UserModal extends React.Component<IUserModalProps, {
 
   public render(): React.ReactElement<IUserModalProps> {
     const { 
-      webPartTitle, 
       userItems, 
       isLoading, 
       itemsPerPage,
@@ -81,8 +80,6 @@ export default class UserModal extends React.Component<IUserModalProps, {
     return (
       <div className={`${styles.userModal} ${hasTeamsContext ? styles.teams : ''}`}>
         <div className={styles.container}>
-          <h2 className={styles.webPartTitle}>{escape(webPartTitle)}</h2>
-          
           {isLoading ? (
             <div className={styles.spinner}>
               <Spinner size={SpinnerSize.large} label="Loading team members..." />
