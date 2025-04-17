@@ -17,8 +17,8 @@
 .webPartTitle {
   font-size: 24px;
   font-weight: 600;
-  margin-bottom: 20px;
-  color: #333;
+  margin-bottom: 30px;
+  color: #E25B0E; /* Orange color matching the image */
 }
 
 .carouselContainer {
@@ -27,7 +27,7 @@
 
 .tilesGrid {
   display: grid;
-  grid-gap: 20px;
+  grid-gap: 30px;
   margin-bottom: 20px;
 }
 
@@ -73,23 +73,23 @@
 }
 
 .tileContainer {
-  width: 280px;
-  height: 200px;
+  width: 160px;
   display: flex;
   flex-direction: column;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  align-items: center;
+  text-align: center;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  background-color: white;
+  transition: transform 0.3s ease;
+  background-color: transparent;
   position: relative;
   margin: 0 auto;
-  padding: 16px;
+  padding: 0;
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
   }
 }
 
@@ -98,21 +98,33 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 16px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #d3d3d3;
+  overflow: hidden;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
 }
 
 .contentContainer {
-  padding: 8px 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
 }
 
 .title {
   font-size: 16px;
   font-weight: 600;
   margin-top: 0;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
   color: #333;
   text-align: center;
 }
@@ -120,26 +132,13 @@
 .position {
   font-size: 14px;
   color: #666;
-  margin: 0;
+  margin: 0 0 5px 0;
   text-align: center;
 }
 
 .arrowIcon {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  color: "[theme:link, default:#03787c]";
-  color: var(--link);
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  
-  i {
-    font-size: 18px;
-  }
+  font-size: 16px;
+  margin-top: 5px;
 }
 
 .navigationControls {
