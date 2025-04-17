@@ -18,7 +18,6 @@
     "description": { "default": "Displays user profiles with modal details" },
     "officeFabricIconFontName": "People",
     "properties": {
-      "title": "Subject Matter Experts",
       "listName": "TeamMembers",
       "itemsPerPage": 4,
       "userFieldName": "User",
