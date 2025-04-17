@@ -1,8 +1,6 @@
 @import '~@fluentui/react/dist/sass/References.scss';
 
 .userModal {
-  overflow: hidden;
-  padding: 1em;
   color: "[theme:bodyText, default: #323130]";
   color: var(--bodyText);
   &.teams {
@@ -10,25 +8,284 @@
   }
 }
 
-.welcome {
+.container {
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+.carouselContainer {
+  position: relative;
+  width: 100%;
+}
+
+.tilesGrid {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.gridOne {
+  .tileContainer {
+    margin: 0 auto;
+  }
+}
+
+.gridTwo {
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    
+    .tileContainer {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.gridThree {
+  @media (max-width: 992px) {
+    flex-wrap: wrap;
+    
+    .tileContainer {
+      width: 45%;
+      margin-bottom: 20px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    
+    .tileContainer {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.gridFour {
+  @media (max-width: 1200px) {
+    flex-wrap: wrap;
+    
+    .tileContainer {
+      width: 30%;
+      margin-bottom: 20px;
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .tileContainer {
+      width: 45%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    
+    .tileContainer {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.tileContainer {
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  background-color: transparent;
+  position: relative;
+  margin: 0;
+  padding: 0;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #d3d3d3;
+  overflow: hidden;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+
+.contentContainer {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 5px;
+  color: #333;
   text-align: center;
 }
 
-.welcomeImage {
-  width: 100%;
-  max-width: 420px;
+.position {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 5px 0;
+  text-align: center;
 }
 
-.links {
-  a {
-    text-decoration: none;
-    color: "[theme:link, default:#03787c]";
-    color: var(--link); // note: CSS Custom Properties support is limited to modern browsers only
+.arrowIcon {
+  font-size: 16px;
+  margin-top: 5px;
+}
 
+.navigationControls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.navButton {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: 0 5px;
+  color: "[theme:link, default:#03787c]";
+  color: var(--link);
+  transition: background-color 0.3s ease;
+  
+  &:hover {
+    background-color: #f5f5f5;
+  }
+  
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    
     &:hover {
-      text-decoration: underline;
-      color: "[theme:linkHovered, default: #014446]";
-      color: var(--linkHovered); // note: CSS Custom Properties support is limited to modern browsers only
+      background-color: white;
     }
   }
+}
+
+.pageIndicator {
+  margin: 0 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.noItems {
+  text-align: center;
+  padding: 40px 0;
+  color: #666;
+  font-style: italic;
+}
+
+/* Modal Styles */
+.modalContainer {
+  width: 600px;
+  max-width: 90%;
+  min-height: 300px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background: white;
+  
+  &.dark {
+    background: #333;
+    color: white;
+    
+    .modalSection {
+      border-color: #555;
+    }
+    
+    .sectionTitle {
+      color: #fff;
+    }
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px;
+}
+
+.closeButton {
+  background: transparent;
+  border: none;
+  color: #666;
+  font-size: 16px;
+  cursor: pointer;
+  
+  &:hover {
+    color: #333;
+  }
+}
+
+.modalContent {
+  padding: 0 24px 24px;
+}
+
+.userHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.modalSection {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.sectionText {
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-line;
 }
