@@ -30,6 +30,7 @@ const UserTile: React.FC<IUserTileProps> = (props) => {
           size={PersonaSize.size72}
           text={item.title}
           secondaryText={item.position}
+          hidePersonaDetails={true}
         />
       </div>
       <div className={styles.contentContainer}>
