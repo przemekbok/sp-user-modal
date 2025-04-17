@@ -9,66 +9,87 @@
 }
 
 .container {
-  padding: 20px;
-  max-width: 1280px;
-  margin: 0 auto;
-}
-
-.webPartTitle {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 30px;
-  color: #E25B0E; /* Orange color matching the image */
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
 }
 
 .carouselContainer {
   position: relative;
+  width: 100%;
 }
 
 .tilesGrid {
-  display: grid;
-  grid-gap: 30px;
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .gridOne {
-  grid-template-columns: 1fr;
-  justify-items: center;
+  .tileContainer {
+    margin: 0 auto;
+  }
 }
 
 .gridTwo {
-  grid-template-columns: repeat(2, 1fr);
-  
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: center;
+    
+    .tileContainer {
+      margin-bottom: 20px;
+    }
   }
 }
 
 .gridThree {
-  grid-template-columns: repeat(3, 1fr);
-  
   @media (max-width: 992px) {
-    grid-template-columns: repeat(2, 1fr);
+    flex-wrap: wrap;
+    
+    .tileContainer {
+      width: 45%;
+      margin-bottom: 20px;
+    }
   }
   
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: center;
+    
+    .tileContainer {
+      width: 100%;
+      margin-bottom: 20px;
+    }
   }
 }
 
 .gridFour {
-  grid-template-columns: repeat(4, 1fr);
-  
   @media (max-width: 1200px) {
-    grid-template-columns: repeat(3, 1fr);
+    flex-wrap: wrap;
+    
+    .tileContainer {
+      width: 30%;
+      margin-bottom: 20px;
+    }
   }
   
   @media (max-width: 992px) {
-    grid-template-columns: repeat(2, 1fr);
+    .tileContainer {
+      width: 45%;
+    }
   }
   
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: center;
+    
+    .tileContainer {
+      width: 100%;
+      margin-bottom: 20px;
+    }
   }
 }
 
@@ -76,8 +97,8 @@
   width: 160px;
   display: flex;
   flex-direction: column;
-  align-items: left;
-  text-align: left;
+  align-items: center;
+  text-align: center;
   border-radius: 0;
   box-shadow: none;
   overflow: visible;
@@ -85,7 +106,7 @@
   transition: transform 0.3s ease;
   background-color: transparent;
   position: relative;
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
 
   &:hover {
@@ -98,8 +119,8 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 16px;
-  width: 60px;
-  height: 60px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   background-color: #d3d3d3;
   overflow: hidden;
@@ -116,28 +137,28 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  align-items: left;
-  justify-content: left;
+  align-items: center;
+  justify-content: center;
 }
 
 .title {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 600;
   margin-top: 0;
   margin-bottom: 5px;
   color: #333;
-  text-align: left;
+  text-align: center;
 }
 
 .position {
-  font-size: 10px;
+  font-size: 14px;
   color: #666;
   margin: 0 0 5px 0;
-  text-align: left;
+  text-align: center;
 }
 
 .arrowIcon {
-  font-size: 10px;
+  font-size: 16px;
   margin-top: 5px;
 }
 
