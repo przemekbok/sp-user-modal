@@ -3,7 +3,6 @@ import styles from './UserModal.module.scss';
 import { escape } from '@microsoft/sp-lodash-subset';
 import { IUserTileProps } from './IUserTileProps';
 import { Icon } from '@fluentui/react/lib/Icon';
-import { Persona, PersonaSize } from '@fluentui/react/lib/Persona';
 
 const UserTile: React.FC<IUserTileProps> = (props) => {
   const { item, onOpenModal } = props;
@@ -25,21 +24,13 @@ const UserTile: React.FC<IUserTileProps> = (props) => {
       }}
     >
       <div className={styles.imageContainer}>
-        <Persona
-          imageUrl={item.photoUrl}
-          size={PersonaSize.size72}
-          text={item.title}
-          secondaryText={item.position}
-          hidePersonaDetails={true}
-        />
+        <img src={item.photoUrl} alt={item.title} />
       </div>
       <div className={styles.contentContainer}>
-        <div>
-          <h3 className={styles.title}>{escape(item.title)}</h3>
-          <p className={styles.position}>{escape(item.position)}</p>
-        </div>
+        <h3 className={styles.title}>{escape(item.title)}</h3>
+        <p className={styles.position}>{escape(item.position)}</p>
         <div className={styles.arrowIcon}>
-          <Icon iconName="ChevronRightMed" />
+          <span>→</span>
         </div>
       </div>
     </div>
