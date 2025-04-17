@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styles from './UserModal.module.scss';
 import { IUserModalProps } from './IUserModalProps';
-import { escape } from '@microsoft/sp-lodash-subset';
 import { IUserItem } from '../UserModalWebPart';
 import UserTile from './UserTile';
 import UserModalDialog from './UserModalDialog';
