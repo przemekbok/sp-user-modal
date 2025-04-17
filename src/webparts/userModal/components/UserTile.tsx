@@ -30,7 +30,7 @@ const UserTile: React.FC<IUserTileProps> = (props) => {
         <h3 className={styles.title}>{escape(item.title)}</h3>
         <p className={styles.position}>{escape(item.position)}</p>
         <div className={styles.arrowIcon}>
-          <span>→</span>
+          <Icon iconName="ChromeBackMirrored" />
         </div>
       </div>
     </div>
