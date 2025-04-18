@@ -8,12 +8,12 @@
       "@microsoft/teams-js": "2.24.0"
     },
     "version": "1.20.0",
-    "libraryName": "cccloud",
+    "libraryName": "sp-user-modal",
     "libraryId": "dba82def-390e-47a8-ac08-06e56ec245c8",
     "environment": "spo",
     "packageManager": "npm",
-    "solutionName": "cccloud",
-    "solutionShortDescription": "cccloud description",
+    "solutionName": "sp-user-modal",
+    "solutionShortDescription": "sp-user-modal description",
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
     "componentType": "webpart"
