@@ -66,19 +66,26 @@ export default class UserModal extends React.Component<IUserModalProps, {
     const { containerWidth } = this.state;
     const { itemsPerPage } = this.props;
     
-    // Set tile widths based on configuration
-    let tileWidth = 180; // 160px + margins (approximate)
-
+    // Set tile width including margins and padding
+    const tileWidth = 180; // 160px width + 20px margins
+    
+    // Account for container padding (40px total: 20px left + 20px right)
+    const availableWidth = containerWidth - 40;
+    
     // Default to the configured itemsPerPage
     let effectiveItemsPerPage = itemsPerPage;
     
-    // Calculate how many items can fit based on container width
-    const canFit = Math.floor(containerWidth / tileWidth);
+    // Calculate how many items can fit based on available width
+    // Math.max ensures we always show at least 1 item
+    const canFit = Math.max(1, Math.floor(availableWidth / tileWidth));
     
     // If container is too small to fit all configured items, reduce number shown
-    if (canFit < itemsPerPage && canFit > 0) {
+    if (canFit < itemsPerPage) {
       effectiveItemsPerPage = canFit;
     }
+    
+    // Cap the maximum at the configured itemsPerPage
+    effectiveItemsPerPage = Math.min(effectiveItemsPerPage, itemsPerPage);
     
     // Update state only if value changed
     if (this.state.effectiveItemsPerPage !== effectiveItemsPerPage) {
