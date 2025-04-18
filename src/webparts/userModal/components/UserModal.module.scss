@@ -7,6 +7,8 @@
     font-family: $ms-font-family-fallbacks;
   }
   overflow-x: hidden; /* Prevent horizontal overflow at the root level */
+  width: 100%; /* Ensure the component takes full width of its container */
+  box-sizing: border-box;
 }
 
 .container {
@@ -15,6 +17,7 @@
   max-width: 100%;
   margin: 0 auto; /* Center the container */
   box-sizing: border-box;
+  overflow: hidden; /* Prevent any children from overflowing */
 }
 
 .carouselContainer {
@@ -22,35 +25,50 @@
   width: 100%;
   overflow: hidden; /* Prevent content from overflowing */
   box-sizing: border-box;
+  margin: 0 auto; /* Center the carousel */
 }
 
 .tilesGrid {
   display: flex;
-  justify-content: center; /* Changed from space-between to center for better small screen layout */
+  justify-content: center; /* Center tiles for better small screen layout */
   width: 100%;
   margin: 0;
   padding: 0;
-  flex-wrap: nowrap; /* Prevent wrapping to keep layout consistent */
+  flex-wrap: nowrap; /* Keep layout consistent */
+  box-sizing: border-box;
+  min-width: 0; /* Fix flexbox min-width issue in some browsers */
 }
 
 .gridOne {
   .tileContainer {
     margin: 0 auto;
+    max-width: 100%; /* Ensure single tile doesn't overflow */
   }
 }
 
 .gridTwo, .gridThree, .gridFour {
-  flex-wrap: nowrap;
-  justify-content: space-around; /* Better spacing for responsive layouts */
+  justify-content: space-between; /* Better spacing for responsive layouts */
   
   .tileContainer {
     flex: 0 0 auto;
     margin: 0 10px;
+    /* Adjust width to prevent overflow */
+    max-width: calc(50% - 20px); /* For 2 tiles layout */
   }
 }
 
+/* Specific adjustments for 3 and 4 tiles */
+.gridThree .tileContainer {
+  max-width: calc(33.33% - 20px); /* For 3 tiles layout */
+}
+
+.gridFour .tileContainer {
+  max-width: calc(25% - 20px); /* For 4 tiles layout */
+}
+
 .tileContainer {
-  width: 160px;
+  width: 160px; /* Default width */
+  max-width: 100%; /* Ensure responsiveness */
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -63,6 +81,7 @@
   position: relative;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 
   &:hover {
     transform: scale(1.05);
@@ -71,6 +90,9 @@
 
 .imageContainer {
   margin-bottom: 16px;
+  width: 100%; /* Make image container responsive */
+  display: flex;
+  justify-content: center;
 }
 
 .contentContainer {
@@ -79,6 +101,9 @@
   flex-direction: column;
   align-items: left;
   justify-content: left;
+  width: 100%; /* Full width */
+  min-width: 0; /* Allow text truncation to work properly */
+  overflow: hidden; /* Hide overflowing text */
 }
 
 .title {
@@ -88,6 +113,9 @@
   margin-bottom: 5px;
   color: #333;
   text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .position {
@@ -95,6 +123,9 @@
   color: #666;
   margin: 0 0 5px 0;
   text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .arrowIcon {
@@ -108,6 +139,7 @@
   justify-content: center;
   align-items: center;
   margin-top: 15px;
+  width: 100%; /* Full width to align properly */
 }
 
 .navButton {

@@ -24,14 +24,20 @@ const UserTile: React.FC<IUserTileProps> = (props) => {
         }
       }}
     >
-      <Persona
-        className={styles.imageContainer}
-        imageUrl={item.photoUrl}
-        size={PersonaSize.size72}
-      />
+      <div className={styles.imageContainer}>
+        <Persona
+          imageUrl={item.photoUrl}
+          size={PersonaSize.size72}
+          imageAlt={`Profile photo of ${item.title}`}
+        />
+      </div>
       <div className={styles.contentContainer}>
-        <h3 className={styles.title}>{escape(item.title)}</h3>
-        <p className={styles.position}>{escape(item.position)}</p>
+        <h3 className={styles.title} title={item.title}>
+          {escape(item.title)}
+        </h3>
+        <p className={styles.position} title={item.position}>
+          {escape(item.position)}
+        </p>
         <div className={styles.arrowIcon}>
           <Icon iconName="ChromeBackMirrored" />
         </div>
