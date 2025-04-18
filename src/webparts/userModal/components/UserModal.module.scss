@@ -29,6 +29,7 @@
   width: 100%;
   margin: 0;
   padding: 0;
+  flex-wrap: nowrap; /* Prevent wrapping to keep layout consistent */
 }
 
 .gridOne {
@@ -37,62 +38,13 @@
   }
 }
 
-.gridTwo {
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-    
-    .tileContainer {
-      margin-bottom: 20px;
-    }
-  }
-}
-
-.gridThree {
-  @media (max-width: 992px) {
-    flex-wrap: wrap;
-    
-    .tileContainer {
-      width: 45%;
-      margin-bottom: 20px;
-    }
-  }
+.gridTwo, .gridThree, .gridFour {
+  flex-wrap: nowrap;
+  justify-content: space-between;
   
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-    
-    .tileContainer {
-      width: 100%;
-      margin-bottom: 20px;
-    }
-  }
-}
-
-.gridFour {
-  @media (max-width: 1200px) {
-    flex-wrap: wrap;
-    
-    .tileContainer {
-      width: 30%;
-      margin-bottom: 20px;
-    }
-  }
-  
-  @media (max-width: 992px) {
-    .tileContainer {
-      width: 45%;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-    
-    .tileContainer {
-      width: 100%;
-      margin-bottom: 20px;
-    }
+  .tileContainer {
+    flex: 0 0 auto;
+    margin: 0 10px;
   }
 }
 
@@ -203,6 +155,11 @@
   padding: 40px 0;
   color: #666;
   font-style: italic;
+}
+
+/* Always show navigation controls when there are multiple pages */
+.alwaysShowNavigation {
+  display: flex !important;
 }
 
 /* Modal Styles */
