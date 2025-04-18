@@ -27,7 +27,7 @@ const UserTile: React.FC<IUserTileProps> = (props) => {
       <Persona
         className={styles.imageContainer}
         imageUrl={item.photoUrl}
-        size={PersonaSize.size56}
+        size={PersonaSize.size72}
       />
       <div className={styles.contentContainer}>
         <h3 className={styles.title}>{escape(item.title)}</h3>
