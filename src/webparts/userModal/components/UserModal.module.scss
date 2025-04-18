@@ -6,21 +6,22 @@
   &.teams {
     font-family: $ms-font-family-fallbacks;
   }
+  overflow-x: hidden; /* Prevent horizontal overflow at the root level */
 }
 
 .container {
-  padding: 0;
-  width: 100%;
+  padding: 10px 0 30px; /* Changed from margins to padding, removed left/right padding */
+  width: calc(100% - 40px); /* Account for the desired 20px spacing on each side */
   max-width: 100%;
-  margin-top: 10px;
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-bottom: 30px;
+  margin: 0 auto; /* Center the container */
+  box-sizing: border-box;
 }
 
 .carouselContainer {
   position: relative;
   width: 100%;
+  overflow: hidden; /* Prevent content from overflowing */
+  box-sizing: border-box;
 }
 
 .tilesGrid {
