@@ -66,32 +66,32 @@ export default class UserModal extends React.Component<IUserModalProps, {
     const { containerWidth } = this.state;
     const { itemsPerPage } = this.props;
     
-    // Set tile width including margins and padding
-    const tileWidth = 180; // 160px width + 20px margins
+    // More responsive approach to calculate tile width based on container size
+    // Base tile width plus margins (adjusted from 180px to account for different screen sizes)
+    const baseTileWidth = 160; // Base width of tile
+    const tileMargins = 20; // Left + right margins
+    const minTileWidth = baseTileWidth + tileMargins; // Minimum width needed for a tile
     
-    // Account for container padding (40px total: 20px left + 20px right)
-    const availableWidth = containerWidth - 40;
+    // Account for container padding (left + right)
+    const containerPadding = 40; // 20px on each side
+    const availableWidth = Math.max(minTileWidth, containerWidth - containerPadding);
     
-    // Default to the configured itemsPerPage
-    let effectiveItemsPerPage = itemsPerPage;
+    // Determine how many tiles can fit based on available width
+    // Adding a small buffer to prevent edge cases
+    const buffer = 5;
+    const canFit = Math.max(1, Math.floor((availableWidth - buffer) / minTileWidth));
     
-    // Calculate how many items can fit based on available width
-    // Math.max ensures we always show at least 1 item
-    const canFit = Math.max(1, Math.floor(availableWidth / tileWidth));
+    // Calculate effective items per page but don't exceed configured maximum
+    let effectiveItemsPerPage = Math.min(canFit, itemsPerPage);
     
-    // If container is too small to fit all configured items, reduce number shown
-    if (canFit < itemsPerPage) {
-      effectiveItemsPerPage = canFit;
-    }
-    
-    // Cap the maximum at the configured itemsPerPage
-    effectiveItemsPerPage = Math.min(effectiveItemsPerPage, itemsPerPage);
+    // Ensure we always show at least 1 item
+    effectiveItemsPerPage = Math.max(1, effectiveItemsPerPage);
     
     // Update state only if value changed
     if (this.state.effectiveItemsPerPage !== effectiveItemsPerPage) {
       this.setState({ 
         effectiveItemsPerPage,
-        // Reset to first page when items per page changes
+        // Reset to first page when items per page changes to avoid showing empty pages
         currentPage: 0
       });
     }
