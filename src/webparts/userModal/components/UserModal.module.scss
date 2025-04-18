@@ -40,7 +40,7 @@
 
 .gridTwo, .gridThree, .gridFour {
   flex-wrap: nowrap;
-  justify-content: space-around;
+  justify-content: space-between;
   
   .tileContainer {
     flex: 0 0 auto;
