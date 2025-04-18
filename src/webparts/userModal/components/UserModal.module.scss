@@ -47,7 +47,7 @@
 }
 
 .gridTwo, .gridThree, .gridFour {
-  justify-content: space-around; /* Better spacing for responsive layouts */
+  justify-content: space-between; /* Better spacing for responsive layouts */
   
   .tileContainer {
     flex: 0 0 auto;
