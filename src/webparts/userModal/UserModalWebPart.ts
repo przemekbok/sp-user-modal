@@ -5,7 +5,8 @@ import {
   type IPropertyPaneConfiguration,
   PropertyPaneTextField,
   PropertyPaneDropdown,
-  PropertyPaneLink
+  PropertyPaneLink,
+  IPropertyPaneLinkProps
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
@@ -241,7 +242,7 @@ export default class UserModalWebPart extends BaseClientSideWebPart<IUserModalWe
   }
 
   // Method to open SharePoint list creation page
-  private _onCreateListClicked(): void {
+  private _onCreateListClicked = (event: React.MouseEvent<HTMLElement>): void => {
     const listCreationUrl = `${this.context.pageContext.web.absoluteUrl}/_layouts/15/createlist.aspx`;
     window.open(listCreationUrl, '_blank');
   }
@@ -266,11 +267,11 @@ export default class UserModalWebPart extends BaseClientSideWebPart<IUserModalWe
                   options: this._availableLists,
                   selectedKey: this.properties.listName
                 }),
-                PropertyPaneLink('', {
+                PropertyPaneLink('createListLink', {
                   text: "Can't find source list? Create it! Click here",
-                  href: 'javascript:void(0)',
-                  target: '_self',
-                  onClick: this._onCreateListClicked.bind(this)
+                  href: "#",
+                  target: '_blank',
+                  onClick: this._onCreateListClicked
                 }),
                 PropertyPaneDropdown('itemsPerPage', {
                   label: 'Tiles Per View',
