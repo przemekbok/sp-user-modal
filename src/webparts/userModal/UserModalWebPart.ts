@@ -4,7 +4,8 @@ import { Version } from '@microsoft/sp-core-library';
 import {
   type IPropertyPaneConfiguration,
   PropertyPaneTextField,
-  PropertyPaneDropdown
+  PropertyPaneDropdown,
+  PropertyPaneLink
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
@@ -15,6 +16,7 @@ import "@pnp/sp/lists";
 import "@pnp/sp/items";
 import "@pnp/sp/fields";
 import "@pnp/sp/profiles";
+import { IDropdownOption } from '@fluentui/react/lib/Dropdown';
 
 import * as strings from 'UserModalWebPartStrings';
 import UserModal from './components/UserModal';
@@ -45,13 +47,19 @@ export default class UserModalWebPart extends BaseClientSideWebPart<IUserModalWe
   private _environmentMessage: string = '';
   private _userItems: IUserItem[] = [];
   private _isLoading: boolean = true;
+  private _availableLists: IDropdownOption[] = []; // Store available lists
 
   public onInit(): Promise<void> {
     // Initialize PnP JS
     this._sp = spfi().using(SPFx(this.context)).using(PnPLogging(LogLevel.Warning));
     
-    return this._getEnvironmentMessage().then(message => {
-      this._environmentMessage = message;
+    return Promise.all([
+      this._getEnvironmentMessage().then(message => {
+        this._environmentMessage = message;
+      }),
+      this._fetchAvailableLists()
+    ]).then(() => {
+      return Promise.resolve();
     });
   }
 
@@ -84,6 +92,36 @@ export default class UserModalWebPart extends BaseClientSideWebPart<IUserModalWe
     );
 
     ReactDom.render(element, this.domElement);
+  }
+
+  private async _fetchAvailableLists(): Promise<void> {
+    try {
+      // Get all non-hidden lists from the site
+      const lists = await this._sp.web.lists
+        .filter("Hidden eq false and BaseTemplate eq 100")
+        .select("Title, Id")
+        .orderBy("Title")
+        .get();
+      
+      // Convert lists to dropdown options
+      this._availableLists = lists.map(list => ({
+        key: list.Title,
+        text: list.Title
+      }));
+      
+      // Add default empty option
+      this._availableLists.unshift({
+        key: '',
+        text: '- Select a list -'
+      });
+
+    } catch (error) {
+      console.error("Error fetching SharePoint lists:", error);
+      this._availableLists = [{
+        key: '',
+        text: '- Error loading lists -'
+      }];
+    }
   }
 
   private async _fetchUsersFromList(): Promise<void> {
@@ -202,6 +240,12 @@ export default class UserModalWebPart extends BaseClientSideWebPart<IUserModalWe
     return Version.parse('1.0');
   }
 
+  // Method to open SharePoint list creation page
+  private _onCreateListClicked(): void {
+    const listCreationUrl = `${this.context.pageContext.web.absoluteUrl}/_layouts/15/createlist.aspx`;
+    window.open(listCreationUrl, '_blank');
+  }
+
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
       pages: [
@@ -217,8 +261,16 @@ export default class UserModalWebPart extends BaseClientSideWebPart<IUserModalWe
                   label: 'Web Part Title',
                   value: 'Subject Matter Experts'
                 }),
-                PropertyPaneTextField('listName', {
-                  label: 'SharePoint List Name'
+                PropertyPaneDropdown('listName', {
+                  label: 'SharePoint List',
+                  options: this._availableLists,
+                  selectedKey: this.properties.listName
+                }),
+                PropertyPaneLink('', {
+                  text: "Can't find source list? Create it! Click here",
+                  href: 'javascript:void(0)',
+                  target: '_self',
+                  onClick: this._onCreateListClicked.bind(this)
                 }),
                 PropertyPaneDropdown('itemsPerPage', {
                   label: 'Tiles Per View',
