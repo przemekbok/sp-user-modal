@@ -5,7 +5,7 @@ import {
   type IPropertyPaneConfiguration,
   PropertyPaneTextField,
   PropertyPaneDropdown,
-  PropertyPaneCustomField,
+  PropertyPaneLabel,
   PropertyPaneHorizontalRule
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
@@ -241,32 +241,10 @@ export default class UserModalWebPart extends BaseClientSideWebPart<IUserModalWe
     return Version.parse('1.0');
   }
 
-  // Method to open SharePoint list creation page
-  private _onCreateListClicked = (): void => {
-    const listCreationUrl = `${this.context.pageContext.web.absoluteUrl}/_layouts/15/createlist.aspx`;
-    window.open(listCreationUrl, '_blank');
-  }
-
-  // Render a custom property pane field for the "Create List" link
-  private _renderCreateListLink = (): JSX.Element => {
-    return (
-      <div style={{margin: '8px 0'}}>
-        <a 
-          href="#" 
-          onClick={this._onCreateListClicked}
-          style={{
-            color: 'rgb(0, 120, 212)', 
-            textDecoration: 'none',
-            fontSize: '14px'
-          }}
-        >
-          Can't find source list? Create it! Click here
-        </a>
-      </div>
-    );
-  }
-
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
+    // Get the list creation URL for the instructional text
+    const listCreationUrl = `${this.context.pageContext.web.absoluteUrl}/_layouts/15/createlist.aspx`;
+    
     return {
       pages: [
         {
@@ -286,9 +264,8 @@ export default class UserModalWebPart extends BaseClientSideWebPart<IUserModalWe
                   options: this._availableLists,
                   selectedKey: this.properties.listName
                 }),
-                PropertyPaneCustomField({
-                  key: 'createListLink',
-                  onRender: this._renderCreateListLink
+                PropertyPaneLabel('createListNote', {
+                  text: `Can't find your list? Create a new list in SharePoint at: ${this.context.pageContext.web.absoluteUrl}/_layouts/15/createlist.aspx`
                 }),
                 PropertyPaneHorizontalRule(),
                 PropertyPaneDropdown('itemsPerPage', {
