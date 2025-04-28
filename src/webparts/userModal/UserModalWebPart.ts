@@ -5,8 +5,8 @@ import {
   type IPropertyPaneConfiguration,
   PropertyPaneTextField,
   PropertyPaneDropdown,
-  PropertyPaneLink,
-  IPropertyPaneLinkProps
+  PropertyPaneCustomField,
+  PropertyPaneHorizontalRule
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
@@ -242,9 +242,28 @@ export default class UserModalWebPart extends BaseClientSideWebPart<IUserModalWe
   }
 
   // Method to open SharePoint list creation page
-  private _onCreateListClicked = (event: React.MouseEvent<HTMLElement>): void => {
+  private _onCreateListClicked = (): void => {
     const listCreationUrl = `${this.context.pageContext.web.absoluteUrl}/_layouts/15/createlist.aspx`;
     window.open(listCreationUrl, '_blank');
+  }
+
+  // Render a custom property pane field for the "Create List" link
+  private _renderCreateListLink = (): JSX.Element => {
+    return (
+      <div style={{margin: '8px 0'}}>
+        <a 
+          href="#" 
+          onClick={this._onCreateListClicked}
+          style={{
+            color: 'rgb(0, 120, 212)', 
+            textDecoration: 'none',
+            fontSize: '14px'
+          }}
+        >
+          Can't find source list? Create it! Click here
+        </a>
+      </div>
+    );
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
@@ -267,12 +286,11 @@ export default class UserModalWebPart extends BaseClientSideWebPart<IUserModalWe
                   options: this._availableLists,
                   selectedKey: this.properties.listName
                 }),
-                PropertyPaneLink('createListLink', {
-                  text: "Can't find source list? Create it! Click here",
-                  href: "#",
-                  target: '_blank',
-                  onClick: this._onCreateListClicked
+                PropertyPaneCustomField({
+                  key: 'createListLink',
+                  onRender: this._renderCreateListLink
                 }),
+                PropertyPaneHorizontalRule(),
                 PropertyPaneDropdown('itemsPerPage', {
                   label: 'Tiles Per View',
                   options: [
