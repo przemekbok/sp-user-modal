@@ -101,7 +101,7 @@ export default class UserModalWebPart extends BaseClientSideWebPart<IUserModalWe
         .filter("Hidden eq false and BaseTemplate eq 100")
         .select("Title, Id")
         .orderBy("Title")
-        .get();
+        (); // Changed from .get() to () for PnP JS v3+
       
       // Convert lists to dropdown options
       this._availableLists = lists.map(list => ({
