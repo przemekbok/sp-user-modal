@@ -5,7 +5,6 @@ import {
   type IPropertyPaneConfiguration,
   PropertyPaneTextField,
   PropertyPaneDropdown,
-  PropertyPaneLabel,
   PropertyPaneHorizontalRule
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
@@ -22,6 +21,7 @@ import { IDropdownOption } from '@fluentui/react/lib/Dropdown';
 import * as strings from 'UserModalWebPartStrings';
 import UserModal from './components/UserModal';
 import { IUserModalProps } from './components/IUserModalProps';
+import PropertyPaneListCreationRedirect from './PropertyPaneListCreationRedirect';
 
 export interface IUserModalWebPartProps {
   title: string;
@@ -242,9 +242,6 @@ export default class UserModalWebPart extends BaseClientSideWebPart<IUserModalWe
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
-    // Get the list creation URL for the instructional text
-    const listCreationUrl = `${this.context.pageContext.web.absoluteUrl}/_layouts/15/createlist.aspx`;
-    
     return {
       pages: [
         {
@@ -264,9 +261,7 @@ export default class UserModalWebPart extends BaseClientSideWebPart<IUserModalWe
                   options: this._availableLists,
                   selectedKey: this.properties.listName
                 }),
-                PropertyPaneLabel('createListNote', {
-                  text: `Can't find your list? Create a new list in SharePoint at: ${this.context.pageContext.web.absoluteUrl}/_layouts/15/createlist.aspx`
-                }),
+                new PropertyPaneListCreationRedirect(this.context),
                 PropertyPaneHorizontalRule(),
                 PropertyPaneDropdown('itemsPerPage', {
                   label: 'Tiles Per View',
