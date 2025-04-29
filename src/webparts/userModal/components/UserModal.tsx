@@ -10,7 +10,7 @@ import { Icon } from '@fluentui/react/lib/Icon';
 export default class UserModal extends React.Component<IUserModalProps, {
   currentPage: number;
   isModalOpen: boolean;
-  selectedUser: IUserItem | null;
+  selectedUser: IUserItem | undefined;
   containerWidth: number;
   effectiveItemsPerPage: number;
 }> {
@@ -23,7 +23,7 @@ export default class UserModal extends React.Component<IUserModalProps, {
     this.state = {
       currentPage: 0,
       isModalOpen: false,
-      selectedUser: null,
+      selectedUser: undefined,
       containerWidth: 0,
       effectiveItemsPerPage: props.itemsPerPage
     };
